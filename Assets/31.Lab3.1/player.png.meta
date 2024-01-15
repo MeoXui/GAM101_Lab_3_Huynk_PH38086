@@ -177,7 +177,7 @@ TextureImporter:
       name: player_1
       rect:
         serializedVersion: 2
-        x: 202
+        x: 201
         y: 300
         width: 202
         height: 300
@@ -219,7 +219,7 @@ TextureImporter:
       name: player_3
       rect:
         serializedVersion: 2
-        x: 606
+        x: 605
         y: 300
         width: 202
         height: 300
