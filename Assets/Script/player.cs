@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class player : MonoBehaviour
 {
-    Rigidbody2D rigidbody2D;
-    Transform transform;
-    float movePrefix = 3;
+    public Rigidbody2D rigidbody2D;
+    public Transform transform;
+    public float speed, jumpPow;
+
+    bool left = false, right = false, jump = false;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -16,33 +18,44 @@ public class player : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collider2D other)
+    private void OnCollisionEnter2D(Collision2D other)
     {
         Debug.Log("Va cham voi: " + other.gameObject.tag);
+        if (other.gameObject.tag == "BackGound")
+        {
+            jump = true;
+        }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        rigidbody2D = this.gameObject.GetComponent<Rigidbody2D>();
-        transform = this.gameObject.GetComponent<Transform>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) left = true;
+        if (Input.GetKeyUp(KeyCode.LeftArrow)) left = false;
+        if (Input.GetKeyDown(KeyCode.RightArrow)) right = true;
+        if (Input.GetKeyUp(KeyCode.RightArrow)) right = false;
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            rigidbody2D.AddForce(Vector2.up * movePrefix, ForceMode2D.Impulse);
+            if (jump) rigidbody2D.AddForce(Vector2.up * jumpPow, ForceMode2D.Impulse);
+            jump = false;
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+
+        if (left)
         {
-            rigidbody2D.AddForce(Vector2.left * movePrefix, ForceMode2D.Impulse);
+            rigidbody2D.AddForce(Vector2.left * speed, ForceMode2D.Impulse);
             transform.localScale = new Vector3(-1, 1, 1);
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+
+        if (right)
         {
-            rigidbody2D.AddForce(Vector2.right * movePrefix, ForceMode2D.Impulse);
+            rigidbody2D.AddForce(Vector2.right * speed, ForceMode2D.Impulse);
             transform.localScale = new Vector3(1, 1, 1);
         }
     }
